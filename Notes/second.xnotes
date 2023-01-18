@@ -1,0 +1,12 @@
+<notebook name="Second notebook">
+    <topic name="Default topic">
+        <note name="Default note">
+            <noteTextBox height="200" width="300" x="523" y="55">szia</noteTextBox>
+        </note>
+    </topic>
+    <topic name="bbb">
+        <note name="Notes">
+            <noteTextBox height="200" width="300" x="182" y="153">szia</noteTextBox>
+        </note>
+    </topic>
+</notebook>
