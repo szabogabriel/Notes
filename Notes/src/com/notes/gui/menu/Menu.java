@@ -1,4 +1,4 @@
-package com.notes.gui;
+package com.notes.gui.menu;
 
 import java.awt.event.KeyEvent;
 
