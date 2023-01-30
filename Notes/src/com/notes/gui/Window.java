@@ -107,11 +107,11 @@ public class Window extends JFrame {
 		}
 	}
 
-	public JList<GuiNotebookModel> getNotebookLists() {
+	public NotebookListComponent getNotebookLists() {
 		return notebookLists;
 	}
 
-	public JList<GuiTopicModel> getTopicList() {
+	public TopicListComponent getTopicList() {
 		return topicList;
 	}
 
