@@ -7,13 +7,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 
 import com.notes.actionQueue.ActionQueueHolder;
 import com.notes.gui.listeners.MouseListenerWrapper;
-import com.notes.gui.listeners.NotebookMouseListener;
-import com.notes.gui.listeners.TopicMouseListener;
 import com.notes.gui.menu.Menu;
 import com.notes.gui.menu.TabbedPanePopupMenu;
 import com.notes.gui.model.GuiAppModel;
@@ -29,10 +26,9 @@ public class Window extends JFrame {
 
 	private static final int PREFERRED_HEIGHT_WINDOW = 768;
 	private static final int PREFERRED_WIDTH_WINDOW = 1300;
-	private static final int PREFERRED_WIDTH_SCROLL = 180;
 
-	private JList<GuiNotebookModel> notebookLists;
-	private JList<GuiTopicModel> topicList;
+	private NotebookListComponent notebookLists;
+	private TopicListComponent topicList;
 
 	private TabComponent tabbedPaneCenter;
 
@@ -52,38 +48,22 @@ public class Window extends JFrame {
 
 			appModel = contextHolderService.getAppModel();
 
-			topicList = new JList<>();
-			topicList.setPreferredSize(new Dimension(PREFERRED_WIDTH_SCROLL, PREFERRED_HEIGHT_WINDOW));
-			topicList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			topicList = new TopicListComponent();
 			topicList.addListSelectionListener(this::topicListSelectionListener);
-			topicList.addMouseListener(new TopicMouseListener());
 
-			notebookLists = new JList<>(appModel);
-			notebookLists.setPreferredSize(new Dimension(PREFERRED_WIDTH_SCROLL, PREFERRED_HEIGHT_WINDOW));
-			notebookLists.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			notebookLists = new NotebookListComponent(appModel, contextHolderService);
 			notebookLists.addListSelectionListener(this::notebookListSelectionListener);
-			notebookLists.addMouseListener(new NotebookMouseListener(contextHolderService));
 
 			eastPanel.setLayout(new BorderLayout());
 			eastPanel.add(topicList, BorderLayout.EAST);
 			eastPanel.add(notebookLists, BorderLayout.WEST);
 
 			tabbedPaneCenter = new TabComponent(actionQueueHandler);
+			tabbedPaneCenter.addMouseListener(createCenterMouseListener());
 
 			add(eastPanel, BorderLayout.WEST);
 			add(tabbedPaneCenter, BorderLayout.CENTER);
 
-			tabbedPaneCenter.addMouseListener(new MouseListenerWrapper() {
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					if (e.getButton() == MouseEvent.BUTTON3) {
-						TabbedPanePopupMenu menu = new TabbedPanePopupMenu(tabbedPaneCenter,
-								topicList.getSelectedValue());
-						menu.show(tabbedPaneCenter, e.getX(), e.getY());
-					}
-				}
-			});
-			
 			setJMenuBar(new Menu(this));
 
 			pack();
@@ -91,6 +71,19 @@ public class Window extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private MouseListenerWrapper createCenterMouseListener() {
+		return new MouseListenerWrapper() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.getButton() == MouseEvent.BUTTON3) {
+					TabbedPanePopupMenu menu = new TabbedPanePopupMenu(tabbedPaneCenter,
+							topicList.getSelectedValue());
+					menu.show(tabbedPaneCenter, e.getX(), e.getY());
+				}
+			}
+		};
 	}
 
 	private void notebookListSelectionListener(ListSelectionEvent listener) {
@@ -133,6 +126,4 @@ public class Window extends JFrame {
 	public ContextHolderService getContextHolder() {
 		return contextHolder;
 	}
-
-	
 }
