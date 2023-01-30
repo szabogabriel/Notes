@@ -6,11 +6,22 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import com.notes.gui.Window;
+import com.notes.service.gui.NotebookService;
+
 public class Menu extends JMenuBar {
 
 	private static final long serialVersionUID = -5112222380369305821L;
 	
-	public Menu() {
+	private Window window;
+	
+	private NotebookService notebookService;
+	
+	public Menu(Window window) {
+		this.window = window;
+		
+		notebookService = new NotebookService(window.getNotebookLists(), window.getContextHolder());
+		
 		add(createMenuFile());
 		add(createMenuProperties());
 		add(createMenuHelp());
@@ -19,12 +30,15 @@ public class Menu extends JMenuBar {
 	private JMenu createMenuFile() {
 		JMenuItem menuItemNew = new JMenuItem("New");
 		menuItemNew.setMnemonic(KeyEvent.VK_N);
+		menuItemNew.addActionListener(notebookService::createNotebook);
 		
 		JMenuItem menuItemOpen = new JMenuItem("Open");
 		menuItemOpen.setMnemonic(KeyEvent.VK_O);
+		menuItemOpen.addActionListener(notebookService::openNotebook);
 		
 		JMenuItem menuItemSave = new JMenuItem("Save");
 		menuItemSave.setMnemonic(KeyEvent.VK_S);
+		menuItemSave.addActionListener(notebookService::saveNotebook);
 		
 		JMenuItem menuItemSaveAs = new JMenuItem("Save As ...");
 		menuItemSaveAs.setMnemonic(KeyEvent.VK_A);

@@ -117,6 +117,8 @@ public class Main {
 			}
 
 			private void saveCurrentNotebook() {
+				// FIXME: this code is currently duplicated. Gui components and services are
+				// not bound to DI. Need to refactor this.
 				DI.getServiceImpl(ContextHolderService.class).ifPresent(e -> {
 					AppModel appModel = e.getAppModel();
 					String currentlyVisibleNotebook = e.getCurrentContext();

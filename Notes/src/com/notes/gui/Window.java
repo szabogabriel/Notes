@@ -84,7 +84,7 @@ public class Window extends JFrame {
 				}
 			});
 			
-			setJMenuBar(new Menu());
+			setJMenuBar(new Menu(this));
 
 			pack();
 			setVisible(true);
@@ -114,4 +114,25 @@ public class Window extends JFrame {
 		}
 	}
 
+	public JList<GuiNotebookModel> getNotebookLists() {
+		return notebookLists;
+	}
+
+	public JList<GuiTopicModel> getTopicList() {
+		return topicList;
+	}
+
+	public TabComponent getTabbedPaneCenter() {
+		return tabbedPaneCenter;
+	}
+
+	public GuiAppModel getAppModel() {
+		return appModel;
+	}
+
+	public ContextHolderService getContextHolder() {
+		return contextHolder;
+	}
+
+	
 }

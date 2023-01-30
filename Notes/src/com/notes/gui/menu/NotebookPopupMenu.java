@@ -29,18 +29,18 @@ public class NotebookPopupMenu extends JPopupMenu {
 		this.parent = (JList<GuiNotebookModel>)parent;
 		
 		add(openNotebookItem);
-		openNotebookItem.addActionListener(notebookService::openNotebookListener);
+		openNotebookItem.addActionListener(notebookService::openNotebook);
 		
 		add(createNotebookItem);
-		createNotebookItem.addActionListener(notebookService::createNotebookListener);
+		createNotebookItem.addActionListener(notebookService::createNotebook);
 		
 		if (this.parent.getSelectedValue() != null) {
 			add(renameNotebookItem);
-			renameNotebookItem.addActionListener(notebookService::renameNotebookListener);
+			renameNotebookItem.addActionListener(notebookService::renameNotebook);
 			
 			if (this.parent.getModel().getSize() > 1) {
 				add(removeNotebookItem);
-				removeNotebookItem.addActionListener(notebookService::removeNotebookItem);
+				removeNotebookItem.addActionListener(notebookService::removeNotebook);
 			}
 		}
 	}

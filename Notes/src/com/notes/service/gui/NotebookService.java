@@ -10,6 +10,7 @@ import com.notes.gui.model.GuiAppModel;
 import com.notes.gui.model.GuiNoteModel;
 import com.notes.gui.model.GuiNotebookModel;
 import com.notes.gui.model.GuiTopicModel;
+import com.notes.model.AppModel;
 import com.notes.model.NoteModel;
 import com.notes.model.NotebookModel;
 import com.notes.model.TopicModel;
@@ -25,7 +26,7 @@ public class NotebookService {
 		this.contextHolder = contextHolder;
 	}
 	
-	public void openNotebookListener(ActionEvent e) {
+	public void openNotebook(ActionEvent e) {
 		JFileChooser fc = new JFileChooser();
 		int result = fc.showOpenDialog(parent);
 		if (result == JFileChooser.APPROVE_OPTION) {
@@ -36,7 +37,7 @@ public class NotebookService {
 		}
 	}
 	
-	public void createNotebookListener(ActionEvent e) {
+	public void createNotebook(ActionEvent e) {
 		JFileChooser fc = new JFileChooser();
 		int result = fc.showSaveDialog(parent);
 		if (result == JFileChooser.APPROVE_OPTION) {
@@ -59,11 +60,25 @@ public class NotebookService {
 		}
 	}
 	
-	public void renameNotebookListener(ActionEvent e) {
+	public void saveNotebook(ActionEvent e) {
+		AppModel appModel = contextHolder.getAppModel();
+		String currentlyVisibleNotebook = contextHolder.getCurrentContext();
+		GuiNotebookModel selectedNotebook = appModel.getNotebooks().stream()
+				.filter(f -> f.getName().equals(currentlyVisibleNotebook))
+				.map(f -> (GuiNotebookModel) f)
+				.findAny().orElse(null);
+		
+		if (selectedNotebook.isDirty()) {
+			contextHolder.saveNotebook(selectedNotebook);
+			appModel.clearDirty();
+		}
+	}
+	
+	public void renameNotebook(ActionEvent e) {
 		//TODO
 	}
 	
-	public void removeNotebookItem(ActionEvent e) {
+	public void removeNotebook(ActionEvent e) {
 		//TODO
 	}
 
