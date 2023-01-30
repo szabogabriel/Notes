@@ -82,6 +82,8 @@ public class Window extends JFrame {
 					}
 				}
 			});
+			
+			setJMenuBar(new Menu());
 
 			pack();
 			setVisible(true);
