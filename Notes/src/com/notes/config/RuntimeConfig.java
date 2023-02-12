@@ -11,15 +11,12 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Properties;
 
-import com.jdi.ServiceClassType;
 import com.notes.actionQueue.ActionQueueFactory;
-import com.notes.actionQueue.ActionQueueHolder;
 import com.notes.actionQueue.sizeLimit.SizeLimitActionQueueFactory;
 import com.notes.serialization.DeserializationProvider;
 import com.notes.serialization.SerializationProvider;
 import com.notes.serialization.xml.XmlDeserializationProvider;
 import com.notes.serialization.xml.XmlSerializationProvider;
-import com.notes.service.ContextHolderService;
 
 public enum RuntimeConfig {
 	/*
@@ -27,15 +24,8 @@ public enum RuntimeConfig {
 	 * type.class -> type com.jdi.ServiceClassType
 	 */
 	JDI_IMPL_ACTION_QUEUE_FACTORY("impl." + ActionQueueFactory.class.getCanonicalName(), SizeLimitActionQueueFactory.class.getCanonicalName()),
-	JDI_TYPE_ACTION_QUEUE_FACTORY("type." + ActionQueueFactory.class.getCanonicalName(), ServiceClassType.SINGLETON.toString()),
-	JDI_IMPL_ACTION_QUEUE_HOLDER("impl." + ActionQueueHolder.class.getCanonicalName(), ActionQueueHolder.class.getCanonicalName()),
-	JDI_TYPE_ACTION_QUEUE_HOLDER("type." + ActionQueueHolder.class.getCanonicalName(), ServiceClassType.SINGLETON.toString()),
-	JDI_IMPL_CONTEXT_HOLDER_SERVICE("impl." + ContextHolderService.class.getCanonicalName(), ContextHolderService.class.getCanonicalName()),
-	JDI_TYPE_CONTEXT_HOLDER_SERVICE("type." + ContextHolderService.class.getCanonicalName(), ServiceClassType.SINGLETON.toString()),
 	JDI_IMPL_DESERIALIZATION_PROVIDER("impl." + DeserializationProvider.class.getCanonicalName(), XmlDeserializationProvider.class.getCanonicalName()),
-	JDI_TYPE_DESERIALIZATION_PROVIDER("type." + DeserializationProvider.class.getCanonicalName(), ServiceClassType.MULTITON.toString()),
 	JDI_IMPL_SERIALIZATION_PROVIDER("impl." + SerializationProvider.class.getCanonicalName(), XmlSerializationProvider.class.getCanonicalName()),
-	JDI_TYPE_SERIALIZATION_PROVIDER("type." + SerializationProvider.class.getCanonicalName(), ServiceClassType.MULTITON.toString()),
 	
 	DEFAULT_NOTEBOOK_NAME("notebook.default.name", "deault.xnotes"),
 	USER_NOTEBOOKS("notebook.user", ""),

@@ -1,7 +1,7 @@
 <notebook name="Default notebook">
     <topic name="Default topic">
         <note name="Default note">
-            <noteTextBox height="200" width="300" x="198" y="136">szia</noteTextBox>
+            <noteTextBox height="200" width="300" x="369" y="224">szia</noteTextBox>
         </note>
     </topic>
     <topic name="AAA">

@@ -3,6 +3,7 @@ package com.notes.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import com.notes.serialization.SerializationProvider;
 
@@ -49,4 +50,25 @@ public class NotebookModel extends BaseModel {
 			setDirty(true);
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(getUuid());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NotebookModel other = (NotebookModel) obj;
+		return Objects.equals(getUuid(), other.getUuid());
+	}
+	
 }

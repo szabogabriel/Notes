@@ -5,11 +5,9 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 
-import com.notes.actionQueue.ActionQueueHolder;
 import com.notes.gui.listeners.MouseListenerWrapper;
 import com.notes.gui.menu.Menu;
 import com.notes.gui.menu.TabbedPanePopupMenu;
@@ -38,7 +36,8 @@ public class Window extends JFrame {
 
 	private JPanel eastPanel = new JPanel();
 
-	public Window(ContextHolderService contextHolderService, ActionQueueHolder actionQueueHandler) {
+	public Window(ContextHolderService contextHolderService, TopicListComponent topicListComponent,
+			NotebookListComponent notebookListComponent, TabComponent tabbedPaneCenterComponent) {
 		this.contextHolder = contextHolderService;
 		try {
 			setTitle(APPLICATION_NAME);
@@ -48,17 +47,17 @@ public class Window extends JFrame {
 
 			appModel = contextHolderService.getAppModel();
 
-			topicList = new TopicListComponent();
+			topicList = topicListComponent;
 			topicList.addListSelectionListener(this::topicListSelectionListener);
 
-			notebookLists = new NotebookListComponent(appModel, contextHolderService);
+			notebookLists = notebookListComponent;
 			notebookLists.addListSelectionListener(this::notebookListSelectionListener);
 
 			eastPanel.setLayout(new BorderLayout());
 			eastPanel.add(topicList, BorderLayout.EAST);
 			eastPanel.add(notebookLists, BorderLayout.WEST);
 
-			tabbedPaneCenter = new TabComponent(actionQueueHandler);
+			tabbedPaneCenter = tabbedPaneCenterComponent;
 			tabbedPaneCenter.addMouseListener(createCenterMouseListener());
 
 			add(eastPanel, BorderLayout.WEST);
@@ -72,14 +71,13 @@ public class Window extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private MouseListenerWrapper createCenterMouseListener() {
 		return new MouseListenerWrapper() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON3) {
-					TabbedPanePopupMenu menu = new TabbedPanePopupMenu(tabbedPaneCenter,
-							topicList.getSelectedValue());
+					TabbedPanePopupMenu menu = new TabbedPanePopupMenu(tabbedPaneCenter, topicList.getSelectedValue());
 					menu.show(tabbedPaneCenter, e.getX(), e.getY());
 				}
 			}

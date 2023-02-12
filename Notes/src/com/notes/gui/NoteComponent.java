@@ -19,8 +19,16 @@ public class NoteComponent extends JComponent implements GuiNoteModelChangeListe
 	private ActionQueueHolder actionQueueHandler;
 	private GuiNoteModel model;
 	
-	public NoteComponent(ActionQueueHolder actionQueueHandler, GuiNoteModel model) {
+	public NoteComponent(ActionQueueHolder actionQueueHandler) {
 		this.actionQueueHandler = actionQueueHandler;
+	}
+	
+	public NoteComponent(ActionQueueHolder actionQueueHandler, GuiNoteModel model) {
+		this(actionQueueHandler);
+		setModel(model);
+	}
+	
+	public void setModel(GuiNoteModel model) {
 		this.model = model;
 		model.addModelChangeListener(this);
 	}

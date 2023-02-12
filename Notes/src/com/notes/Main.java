@@ -7,8 +7,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.jdi.ServiceFactory;
-import com.jdi.ServiceFactoryImpl;
+import com.jdi.JDI;
 import com.notes.actionQueue.ActionQueueHolder;
 import com.notes.config.JdiConfigService;
 import com.notes.gui.Window;
@@ -24,7 +23,11 @@ public class Main {
 		main.run();
 	}
 
-	private final ServiceFactory DI = new ServiceFactoryImpl(new JdiConfigService());
+	private final JDI JDI = new JDI();
+	
+	private Main() {
+		JDI.setConfigService(new JdiConfigService());
+	}
 
 	private void init() {
 		try {
@@ -83,7 +86,7 @@ public class Main {
 				if (actionQueueHandler == null) {
 					synchronized (this) {
 						if (actionQueueHandler == null) {
-							actionQueueHandler = DI.getServiceImpl(ActionQueueHolder.class).orElse(null);
+							actionQueueHandler = JDI.getServiceImpl(ActionQueueHolder.class).orElse(null);
 						}
 					}
 				}
@@ -119,7 +122,7 @@ public class Main {
 			private void saveCurrentNotebook() {
 				// FIXME: this code is currently duplicated. Gui components and services are
 				// not bound to DI. Need to refactor this.
-				DI.getServiceImpl(ContextHolderService.class).ifPresent(e -> {
+				JDI.getServiceImpl(ContextHolderService.class).ifPresent(e -> {
 					AppModel appModel = e.getAppModel();
 					String currentlyVisibleNotebook = e.getCurrentContext();
 					GuiNotebookModel selectedNotebook = appModel.getNotebooks().stream()
@@ -137,7 +140,7 @@ public class Main {
 	}
 
 	private void run() {
-		DI.getServiceImpl(Window.class);
+		JDI.getServiceImpl(Window.class);
 	}
 
 }

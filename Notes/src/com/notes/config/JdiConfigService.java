@@ -2,7 +2,7 @@ package com.notes.config;
 
 import java.util.Optional;
 
-import com.jdi.ConfigService;
+import com.jdi.config.ConfigService;
 
 public class JdiConfigService implements ConfigService {
 

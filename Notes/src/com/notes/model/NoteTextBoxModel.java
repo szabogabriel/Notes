@@ -2,6 +2,7 @@ package com.notes.model;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.Objects;
 
 import com.notes.serialization.SerializationProvider;
 
@@ -83,6 +84,26 @@ public class NoteTextBoxModel extends BaseModel {
 	@Override
 	public String serialize(SerializationProvider provider) {
 		return provider.serialize(this);
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(getUuid());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NoteTextBoxModel other = (NoteTextBoxModel) obj;
+		return Objects.equals(getUuid(), other.getUuid());
 	}
 	
 }
